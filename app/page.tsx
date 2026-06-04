@@ -470,7 +470,7 @@ export default function Home() {
     <>
       <div className="page-wrap">
         <div className="logo-row">
-          <span className="logo-text">Khmer Tver Ban</span>
+          <span className="logo-text">Khmer's blood</span>
         </div>
 
         {tool === null && (

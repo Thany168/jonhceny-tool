@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Compress & Resize by Jonhceny",
-  description: "Produce for daily work",
+  description: "Assist for daily work",
   icons: {
     icon: "/favicon.png",
   },

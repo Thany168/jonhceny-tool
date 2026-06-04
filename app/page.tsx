@@ -3,6 +3,9 @@
 import { useState, useRef, useCallback } from "react";
 import { MdCancel } from "react-icons/md";
 import { FaFileUpload } from "react-icons/fa";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { SiConvertio } from "react-icons/si";
+
 import "./page.css";
 
 type Tool = "compress" | "resize" | null;
@@ -354,7 +357,6 @@ function ResizeTool() {
         />
         {image ? (
           <div className="image-preview-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={image.url} alt="preview" className="preview-img" />
             <button
               className="change-btn"
@@ -476,7 +478,9 @@ export default function Home() {
             <span className="select-heading">Choose a tool to get started</span>
             <div className="cards-row">
               <div className="choice-card" onClick={() => setTool("compress")}>
-                <span className="card-icon"></span>
+                <span className="card-icon">
+                  <MdOutlinePhotoSizeSelectActual />
+                </span>
                 <div>
                   <p className="card-title">Compress Image Size</p>
                   <p
@@ -498,7 +502,9 @@ export default function Home() {
               </div>
 
               <div className="choice-card" onClick={() => setTool("resize")}>
-                <span className="card-icon"></span>
+                <span className="card-icon">
+                  <SiConvertio />
+                </span>
                 <div>
                   <p className="card-title">Resize Dimensions</p>
                   <p
@@ -534,7 +540,7 @@ export default function Home() {
               </h1>
               <p className="tool-sub">
                 {tool === "compress"
-                  ? "Enjoy ur work bong bong."
+                  ? "Enjoy ur work Guys."
                   : "Plan , Action , Focus , Achievement , Relax"}
               </p>
             </div>
@@ -545,7 +551,7 @@ export default function Home() {
         )}
 
         <p className="footer">
-          Product for you baby.{" "}
+          Produce for you Daily work.{" "}
           <a href="https://t.me/thany_oun">Contact Dev.</a>
         </p>
       </div>

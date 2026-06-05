@@ -31,8 +31,8 @@ const TEMPLATES: Template[] = [
     dateY: 1720,
     nameMaxWidth: 1150,
     companyMaxWidth: 1650,
-    nameStartSize: 138,
-    companyStartSize: 88,
+    nameStartSize: 300,
+    companyStartSize: 250,
     nameColor: "#165eff",
     companyColor: "#165eff",
     dateColor: "#555555",
@@ -69,7 +69,7 @@ const TEMPLATES: Template[] = [
   },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── Helpers
 
 const isKhmer = (text: string) => /[\u1780-\u17FF]/.test(text);
 const pickFont = (text: string) => (isKhmer(text) ? "Kantumruy Pro" : "Exo 2");

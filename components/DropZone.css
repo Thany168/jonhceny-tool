@@ -1,0 +1,99 @@
+/* ── Drop Zone ───────────────────────────────────────────────────────────────── */
+
+.drop-zone {
+  border: 1.5px dashed var(--border-hi);
+  border-radius: var(--radius);
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+}
+
+.drop-zone.has-image {
+  cursor: default;
+  min-height: 220px;
+}
+
+/* ── Empty State ─────────────────────────────────────────────────────────────── */
+
+.drop-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drop-icon {
+  font-size: 2rem;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.drop-sub {
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+}
+
+/* ── Image Preview ───────────────────────────────────────────────────────────── */
+
+.image-preview-wrap {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  position: relative;
+}
+
+.preview-img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* ── Change Button ───────────────────────────────────────────────────────────── */
+
+.change-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--border-hi);
+  color: var(--text-dim);
+  border-radius: 5px;
+  padding: 0.25rem 0.6rem;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.change-btn:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}

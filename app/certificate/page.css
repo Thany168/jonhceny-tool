@@ -1,0 +1,350 @@
+/* ── Page Wrapper ────────────────────────────────────────────────────────────── */
+
+.page-wrap {
+  min-height: 100vh;
+  background: #09090b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.tool-screen {
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────────── */
+
+.cert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cert-logo {
+  color: #ff9500;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 13px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.cert-logo:hover {
+  opacity: 0.75;
+}
+
+.back-link {
+  font-size: 13px;
+  color: #71717a;
+  text-decoration: none;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 6px 14px;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.back-link:hover {
+  color: #ff9500;
+  border-color: #ff9500;
+}
+
+/* ── Title ───────────────────────────────────────────────────────────────────── */
+
+.tool-title {
+  margin: 4px 0 4px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.tool-subtitle {
+  color: #71717a;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ── Template Tab Row ────────────────────────────────────────────────────────── */
+
+.template-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tmpl-btn {
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.tmpl-btn:hover {
+  border-color: #ff9500;
+  color: #ff9500;
+}
+
+.tmpl-btn.tmpl-active {
+  background: #ff9500;
+  border-color: #ff9500;
+  color: #000;
+}
+
+/* ── Layout ──────────────────────────────────────────────────────────────────── */
+
+.generator-layout {
+  display: grid;
+  grid-template-columns: 520px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .generator-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Form Card ───────────────────────────────────────────────────────────────── */
+
+.tool-card {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.cert-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Fields ──────────────────────────────────────────────────────────────────── */
+
+.cert-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cert-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #d4d4d8;
+}
+
+.cert-field input {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #3f3f46;
+  background: #09090b;
+  color: #fff;
+  font-size: 14px;
+  font-family: Inter, system-ui, sans-serif;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.cert-field input:focus {
+  outline: none;
+  border-color: #ff9500;
+  box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.15);
+}
+
+.cert-field small {
+  font-size: 11px;
+  color: #52525b;
+}
+
+/* ── Advanced Settings ───────────────────────────────────────────────────────── */
+
+.advanced-settings {
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: #111113;
+}
+
+.advanced-settings summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  color: #ff9500;
+  user-select: none;
+  list-style: none;
+}
+
+.advanced-settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-settings[open] summary {
+  margin-bottom: 14px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 480px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────────────── */
+
+.cert-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.primary-btn,
+.secondary-btn {
+  flex: 1;
+  height: 46px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: Inter, system-ui, sans-serif;
+  transition: all 0.2s;
+  border: none;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #ff9500, #ffb347);
+  color: #000;
+}
+
+.primary-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.3);
+}
+
+.primary-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  color: #fff;
+}
+
+.secondary-btn:hover:not(:disabled) {
+  background: #3f3f46;
+}
+
+.secondary-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.form-warn {
+  font-size: 12px;
+  color: #a16207;
+  background: rgba(161, 98, 7, 0.1);
+  border: 1px solid rgba(161, 98, 7, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+/* ── Preview ─────────────────────────────────────────────────────────────────── */
+
+.preview-container {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.certificate-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid #27272a;
+  background: #000;
+}
+
+.preview-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #52525b;
+}
+
+.preview-empty {
+  background: #18181b;
+  border: 1px dashed #3f3f46;
+  border-radius: 18px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #52525b;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.preview-empty span {
+  font-size: 2.5rem;
+}
+
+.preview-empty b {
+  color: #a1a1aa;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────────── */
+
+.cert-footer {
+  margin-top: 32px;
+  font-size: 13px;
+  color: #52525b;
+  text-align: center;
+}
+
+.cert-footer a {
+  color: #ff9500;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.cert-footer a:hover {
+  opacity: 0.75;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .tool-title {
+    font-size: 26px;
+  }
+
+  .cert-actions {
+    flex-direction: column;
+  }
+}

@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { RiAiGenerate2 } from "react-icons/ri";
+import { GoVideo } from "react-icons/go";
+import { MdDeleteSweep } from "react-icons/md";
+import { FaRegFileCode } from "react-icons/fa";
 
 import { SiConvertio } from "react-icons/si";
 import "./page.css";
@@ -56,6 +59,46 @@ export default function Home() {
             <p className="card-desc">
               Complete name,company name and font size.{" "}
             </p>
+            <span className="card-arrow">→</span>
+          </Link>
+          {/* 4 */}
+          <Link href="/download" className="choice-card">
+            <span className="card-icon">
+              <GoVideo />
+            </span>
+            <div>
+              <p className="card-title">
+                Download Video- Facebook - YouTube - TikTok
+              </p>
+              <p className="card-tag"></p>
+            </div>
+            <p className="card-desc">
+              Copy link and download with custom quality.
+            </p>
+            <span className="card-arrow">→</span>
+          </Link>
+          {/* 5 */}
+          <Link href="/remove-bg" className="choice-card">
+            <span className="card-icon">
+              <MdDeleteSweep />
+            </span>
+            <div>
+              <p className="card-title">Remove Background</p>
+              <p className="card-tag"></p>
+            </div>
+            <p className="card-desc">Fast AI processing</p>
+            <span className="card-arrow">→</span>
+          </Link>
+          {/* 6 */}
+          <Link href="/file-convertor" className="choice-card">
+            <span className="card-icon">
+              <FaRegFileCode />
+            </span>
+            <div>
+              <p className="card-title">File Convertor</p>
+              <p className="card-tag"></p>
+            </div>
+            <p className="card-desc">Fast and best Quality</p>
             <span className="card-arrow">→</span>
           </Link>
         </div>

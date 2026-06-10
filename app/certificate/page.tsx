@@ -33,6 +33,7 @@ const TEMPLATES: Template[] = [
     companyMaxWidth: 1650,
     nameStartSize: 300,
     companyStartSize: 250,
+    // ── Colors ──
     nameColor: "#165eff",
     companyColor: "#165eff",
     dateColor: "#555555",
@@ -41,35 +42,35 @@ const TEMPLATES: Template[] = [
     id: "template2",
     label: "Template 2",
     src: "/templates/template2.png",
-    nameY: 980,
-    companyY: 1480,
+    nameY: 600,
+    companyY: 950,
     dateY: 1700,
     nameMaxWidth: 1100,
     companyMaxWidth: 1600,
     nameStartSize: 130,
-    companyStartSize: 85,
+    companyStartSize: 130,
+    // ── Colors ──
     nameColor: "#c9a84c",
     companyColor: "#c9a84c",
     dateColor: "#666666",
   },
-  {
-    id: "template3",
-    label: "Template 3",
-    src: "/templates/template3.png",
-    nameY: 1020,
-    companyY: 1510,
-    dateY: 1730,
-    nameMaxWidth: 1200,
-    companyMaxWidth: 1700,
-    nameStartSize: 140,
-    companyStartSize: 90,
-    nameColor: "#2d6a4f",
-    companyColor: "#1b4332",
-    dateColor: "#444444",
-  },
 ];
 
-// ─── Helpers
+interface TemplateOverrides {
+  nameFontSize: number;
+  nameY: number;
+  companyFontSize: number;
+  companyY: number;
+}
+
+function defaultOverrides(t: Template): TemplateOverrides {
+  return {
+    nameFontSize: t.nameStartSize,
+    nameY: t.nameY,
+    companyFontSize: t.companyStartSize,
+    companyY: t.companyY,
+  };
+}
 
 const isKhmer = (text: string) => /[\u1780-\u17FF]/.test(text);
 const pickFont = (text: string) => (isKhmer(text) ? "Kantumruy Pro" : "Exo 2");
@@ -106,7 +107,6 @@ function getOrdinal(day: number): string {
   }
 }
 
-// Draw date with superscript ordinal directly on canvas
 function drawDateWithSuperscript(
   ctx: CanvasRenderingContext2D,
   dateStr: string,
@@ -131,7 +131,6 @@ function drawDateWithSuperscript(
   ctx.textBaseline = "middle";
   ctx.textAlign = "left";
 
-  // Measure each segment
   ctx.font = `${baseFontSize}px ${baseFont}`;
   const dayStr = String(day);
   const dayW = ctx.measureText(dayStr).width;
@@ -143,25 +142,20 @@ function drawDateWithSuperscript(
   const rest = ` ${month} ${year}`;
   const restW = ctx.measureText(rest).width;
 
-  // Center the whole string around cx
   const totalW = dayW + ordW + restW;
   let x = cx - totalW / 2;
 
-  // Draw day number
   ctx.font = `${baseFontSize}px ${baseFont}`;
   ctx.fillText(dayStr, x, y);
   x += dayW;
 
-  // Draw superscript ordinal (raised, smaller)
   ctx.font = `${superSize}px ${baseFont}`;
   ctx.fillText(ordinal, x, y - superRise);
   x += ordW;
 
-  // Draw " Month Year"
   ctx.font = `${baseFontSize}px ${baseFont}`;
   ctx.fillText(rest, x, y);
 
-  // Reset alignment
   ctx.textAlign = "center";
 }
 
@@ -173,23 +167,48 @@ export default function CertificatePage() {
   const [company, setCompany] = useState("");
   const [date, setDate] = useState("");
 
-  // Advanced overrides — pre-filled from template defaults
-  const [nameFontSize, setNameFontSize] = useState(TEMPLATES[0].nameStartSize);
-  const [nameY, setNameY] = useState(TEMPLATES[0].nameY);
-  const [companyFontSize, setCompanyFontSize] = useState(
-    TEMPLATES[0].companyStartSize,
+  // Map of per-template overrides — each template remembers its own values
+  const [overridesMap, setOverridesMap] = useState<
+    Record<string, TemplateOverrides>
+  >(() =>
+    Object.fromEntries(TEMPLATES.map((t) => [t.id, defaultOverrides(t)])),
   );
-  const [companyY, setCompanyY] = useState(TEMPLATES[0].companyY);
 
   const [generated, setGenerated] = useState(false);
   const [generating, setGenerating] = useState(false);
 
+  // Current template's overrides (shortcut)
+  const overrides = overridesMap[selected.id];
+
+  // Update a single field for the current template
+  function setOverride<K extends keyof TemplateOverrides>(
+    key: K,
+    value: TemplateOverrides[K],
+  ) {
+    setOverridesMap((prev) => ({
+      ...prev,
+      [selected.id]: { ...prev[selected.id], [key]: value },
+    }));
+    setGenerated(false);
+  }
+
+  // Switch template — restores that template's saved overrides
   function selectTemplate(t: Template) {
     setSelected(t);
-    setNameFontSize(t.nameStartSize);
-    setNameY(t.nameY);
-    setCompanyFontSize(t.companyStartSize);
-    setCompanyY(t.companyY);
+    setGenerated(false);
+    // If the template has never been customised, ensure defaults are loaded
+    setOverridesMap((prev) => ({
+      ...prev,
+      [t.id]: prev[t.id] ?? defaultOverrides(t),
+    }));
+  }
+
+  // Reset current template's overrides back to its defaults
+  function resetOverrides() {
+    setOverridesMap((prev) => ({
+      ...prev,
+      [selected.id]: defaultOverrides(selected),
+    }));
     setGenerated(false);
   }
 
@@ -214,7 +233,6 @@ export default function CertificatePage() {
       ctx.textAlign = "center";
       const cx = canvas.width / 2;
 
-      // ── Name ──
       const nameFont = pickFont(name);
       const displayName = isKhmer(name) ? name : name.toUpperCase();
       const nameWeight = isKhmer(name) ? "700" : "800";
@@ -222,14 +240,14 @@ export default function CertificatePage() {
         ctx,
         displayName,
         selected.nameMaxWidth,
-        nameFontSize,
+        overrides.nameFontSize,
         55,
         nameFont,
         nameWeight,
       );
       ctx.fillStyle = selected.nameColor;
       ctx.font = `${nameWeight} ${finalNameSize}px "${nameFont}"`;
-      ctx.fillText(displayName, cx, nameY);
+      ctx.fillText(displayName, cx, overrides.nameY);
 
       // ── Company ──
       const companyFont = pickFont(company);
@@ -238,16 +256,15 @@ export default function CertificatePage() {
         ctx,
         displayCompany,
         selected.companyMaxWidth,
-        companyFontSize,
+        overrides.companyFontSize,
         42,
         companyFont,
         "700",
       );
       ctx.fillStyle = selected.companyColor;
       ctx.font = `700 ${finalCompanySize}px "${companyFont}"`;
-      ctx.fillText(displayCompany, cx, companyY);
+      ctx.fillText(displayCompany, cx, overrides.companyY);
 
-      // ── Date ──
       drawDateWithSuperscript(
         ctx,
         date,
@@ -354,30 +371,30 @@ export default function CertificatePage() {
                 />
               </div>
 
-              {/* Advanced */}
+              {/* Advanced — values are per-template */}
               <details className="advanced-settings">
-                <summary>⚙ Advanced Position &amp; Size</summary>
+                <summary>
+                  Advanced Position &amp; Size — {selected.label}
+                </summary>
                 <div className="settings-grid">
                   <div className="cert-field">
                     <label>Name Font Size (px)</label>
                     <input
                       type="number"
-                      value={nameFontSize}
-                      onChange={(e) => {
-                        setNameFontSize(Number(e.target.value));
-                        setGenerated(false);
-                      }}
+                      value={overrides.nameFontSize}
+                      onChange={(e) =>
+                        setOverride("nameFontSize", Number(e.target.value))
+                      }
                     />
                   </div>
                   <div className="cert-field">
                     <label>Name Y Position</label>
                     <input
                       type="number"
-                      value={nameY}
-                      onChange={(e) => {
-                        setNameY(Number(e.target.value));
-                        setGenerated(false);
-                      }}
+                      value={overrides.nameY}
+                      onChange={(e) =>
+                        setOverride("nameY", Number(e.target.value))
+                      }
                     />
                     <small>Higher = move down</small>
                   </div>
@@ -385,25 +402,40 @@ export default function CertificatePage() {
                     <label>Company Font Size (px)</label>
                     <input
                       type="number"
-                      value={companyFontSize}
-                      onChange={(e) => {
-                        setCompanyFontSize(Number(e.target.value));
-                        setGenerated(false);
-                      }}
+                      value={overrides.companyFontSize}
+                      onChange={(e) =>
+                        setOverride("companyFontSize", Number(e.target.value))
+                      }
                     />
                   </div>
                   <div className="cert-field">
                     <label>Company Y Position</label>
                     <input
                       type="number"
-                      value={companyY}
-                      onChange={(e) => {
-                        setCompanyY(Number(e.target.value));
-                        setGenerated(false);
-                      }}
+                      value={overrides.companyY}
+                      onChange={(e) =>
+                        setOverride("companyY", Number(e.target.value))
+                      }
                     />
                   </div>
                 </div>
+                {/* Reset button */}
+                <button
+                  onClick={resetOverrides}
+                  style={{
+                    marginTop: "10px",
+                    fontSize: "12px",
+                    color: "var(--text-dim)",
+                    background: "none",
+                    border: "1px solid var(--border)",
+                    borderRadius: "6px",
+                    padding: "4px 10px",
+                    cursor: "pointer",
+                    fontFamily: "Inter, sans-serif",
+                  }}
+                >
+                  ↺ Reset to {selected.label} defaults
+                </button>
               </details>
 
               <div className="cert-actions">
